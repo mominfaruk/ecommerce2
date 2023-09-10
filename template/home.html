@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Home - My E-commerce Site</title>
+<link href="{% static 'styles.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="featured-area pt-100 pb-70">
+        <div class="container">
+            <div class="tab featured-tab-area">
+                <div class="tab_content current active pt-45">
+
+                    <div class="tabs_item current">
+                        <div class="row justify-content-center">
+
+                            {% for product in products %}
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="featured-item">
+                                    <div class="featured-item-img">
+                                        <a href="#">
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <h3><a href="#">{{ product.name }}</a></h3>
+                                        <hr>
+                                        <div class="content-in">
+                                            <h4>{{ product.price }}</h4>
+                                        </div>
+                                        <hr>
+                                        <div class="featured-content-list">
+                                            {% if user.is_authenticated %}
+                                            {% csrf_token %}
+                                            <button type="button" data-id="{{product.id}}"
+                                                data-name="{{ product.name }}" data-price="{{ product.price }}"
+                                                class="default-btn border-radius-5 adding">Add to cart</button>
+                                            {% else %}
+                                            <a href="{% url 'login' %}" class="default-btn border-radius-5">Login to Add
+                                                to
+                                                Cart</a>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

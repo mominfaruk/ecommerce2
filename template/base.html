@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block head %}{% endblock %}
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/"><strong>E-commerce</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+           <ul class="navbar-nav mr-auto">
+             {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ user.username }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" id="logout" href="/logout">Logout</a>
+                </div>
+            </li>
+        {% else %} 
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign Up</a>
+            </li>
+        {% endif %} 
+        
+            </ul>
+
+           
+           {% if user.is_authenticated %}
+            
+           <button type="button" class="btn btn-success my-2 my-sm-0" data-toggle="modal"
+              data-target="#staticBackdrop">
+               <i class="fas fa-shopping-cart total-count"></i>
+           </button>
+            {% endif %}
+        </div>
+     </nav>
+    
+
+    {% block content %}
+    {% endblock %}
+
+    
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="staticBackdropLabel">Your Cart</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <table class="show-cart table">
+   
+             </table>
+             <div class="grand-total">Total price: BDT <span class="total-cart"></span></div>
+           </div>
+           <div class="modal-footer">
+            
+            
+            <a href="/checkout/"><button id="buyNowButton" class="btn btn-primary">Buy Now</button></a>
+            
+               
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <!-- <button type="button" class="btn btn-danger clear-all">Clear All</button> -->
+           </div>
+       </div>
+    </div>
+ </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>

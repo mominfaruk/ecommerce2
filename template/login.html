@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Home - My E-commerce Site</title>
+<link href="{% static 'login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+    <div class="form">
+      <form class="login-form" action="{% url 'login' %}" method="POST">
+        {% if message %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+        {% endif %}
+        {% csrf_token %}
+        <input type="text" placeholder="username" name="username" required/>
+        <input type="password" placeholder="password" name="password" required/>
+        <button type="submit">login</button>
+        <p class="message">Not registered? <a href="/signup">Create an account</a></p>
+      </form>
+    </div>
+  </div>
+{% endblock %}
