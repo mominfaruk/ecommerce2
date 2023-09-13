@@ -1,4 +1,4 @@
-In setting.py add
+###In setting.py add###
 ALLOWED_HOSTS = ['your server ip','127.0.0.1','localhost']
 
 STATIC_URL = 'static/'
@@ -6,8 +6,115 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR, 'static')
 ]
 
-In aws ec2:
+###In aws ec2 run these commadn###
 
 sudo apt-get update
 
 sudo apt-get upgrade
+
+sudo apt-get install python3-venv
+
+python3 -m venv venv
+
+source venv/bin/activate
+
+sudo apt-get install -y nginx
+
+git clone project__git_url
+
+pip install gunicorn
+
+sudo apt-get install supervisor
+
+cd /etc/supervisor/conf.d/
+
+sudo touch gunicorn.conf
+
+sudo nano gunicorn.conf 
+
+##now in gunicorn.conf file paste these code##
+
+[program:gunicorn]
+
+directory=/home/ubuntu/your_project_name
+
+command=/home/ubuntu/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/your_project_name/app.sock your_project_name.wsgi:application  
+
+autostart=true
+
+autorestart=true
+
+stderr_logfile=/var/log/gunicorn/gunicorn.err.log
+
+stdout_logfile=/var/log/gunicorn/gunicorn.out.log
+
+
+
+[group:guni]
+
+programs:gunicorn
+
+##Finish##
+
+sudo mkdir /var/log/gunicorn
+
+sudo supervisorctl reread
+
+sudo supervisorctl update
+
+sudo supervisorctl status
+
+cd ..
+
+cd ..
+
+cd nginx
+
+sudo nano nginx.conf
+
+##in nginx conf change##
+ 
+ user www-data; to user root;
+
+ ##FInish##
+
+ cd sites-available/
+
+ sudo nano django.conf
+
+ ##In django.conf##
+ server{
+
+
+
+	listen 80;
+
+	server_name ;
+
+
+
+	
+
+	location / {
+
+
+
+		include proxy_params;
+
+		proxy_pass http://unix:/home/ubuntu/your_project_name/app.sock;
+
+
+
+	}
+
+
+
+}
+
+##Finish##
+
+sudo nginx -t
+
+sudo ln django.conf /etc/nginx/sites-enabled/
+
+sudo service naginx restart
