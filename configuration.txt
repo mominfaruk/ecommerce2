@@ -1,0 +1,13 @@
+In setting.py add
+ALLOWED_HOSTS = ['your server ip','127.0.0.1','localhost']
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR, 'static')
+]
+
+In aws ec2:
+
+sudo apt-get update
+
+sudo apt-get upgrade
